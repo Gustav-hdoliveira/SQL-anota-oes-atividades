@@ -104,3 +104,33 @@ where Pedidos.valorTotal > 200;
 -- SELECIONA CLIENTES E SEUS PEDIDOS APENAS SE O VALOR TOTAL DO PEDIDO
 SELECT Clientes.nome, count(Pedidos.idPedido) AS total_pedidos from Clientes inner join Pedidos on Clientes.id_cliente = Pedidos.id_cliente GROUP BY Clientes.nome;
 -- Separa e conta todos os pedidos feitos, o GROUP BY separa os nomes
+
+
+
+
+
+
+-- EMPRESA
+CREATE TABLE departamentos(
+    departamento_id int AUTO_INCREMENT PRIMARY KEY,
+    nome varchar(50) NOT null
+);
+CREATE TABLE empregados(
+    empregados_id int AUTO_INCREMENT PRIMARY KEY,
+    nome varchar(50) not null,
+    salario decimal(10, 2) not null,
+    departamento_id int,
+    FOREIGN KEY(departamento_id) REFERENCES departamentos
+    (departamento_id)
+);
+
+SELECT nome, salario
+from empregados
+where salario > (SELECT AVG(salario) from empregados); -- calcula o salario externo e sapara aqueles com os salaríos acima da média
+
+ALTER TABLE departamentos ADD localizacao VARCHAR(50); 
+
+update departamentos set localizacao = 'São Paulo' WHERE nome = 'Vendas';
+update departamentos set localizacao = 'Rio de Janeiro' WHERE nome = 'Marketing';
+update departamentos set localizacao = 'São Paulo' WHERE nome = 'TI';
+update departamentos set localizacao = 'Belo Horizonte' WHERE nome = 'Recursos Humanos';
